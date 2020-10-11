@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <mat-form-field class="auto-select-input">
+    <mat-chip-list #chipList>
+      <input #autocompleteOriginInput matInput [matAutocomplete]="auto" type="text" placeholder="Enter Origin"
+        [matChipInputFor]="chipList" (input)="onChangeOrigin($event.target.value)">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of originList" [value]="option" (onSelectionChange)="onOriginSelect(option)">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="auto-select-input">
+    <mat-chip-list #chipList2>
+      <input #autocompleteDestinationInput matInput [matAutocomplete]="auto2" type="text"
+        placeholder="Enter Destination" [matChipInputFor]="chipList2"
+        (input)="onChangeDestination($event.target.value)">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let option of destinationList" [value]="option"
+          (onSelectionChange)="onDestinationSelect(option)">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-chip-list>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="getFare()" [disabled]="isFareLoading">Get fare</button>
+  <mat-spinner *ngIf="isFareLoading"></mat-spinner>
+</div>
+<div class="container-fluid">
+
+<div class="fare" *ngIf="totalFare">
+  <h1>Fare details</h1>
+  <hr />
+  <h2>Origin: {{originSelected.code + " | " + originSelected.name}}</h2>
+  <h2>Destination: {{destinationSelected.code + " | " + destinationSelected.name}}</h2>
+  <hr />
+  <h1>Total: {{totalFare}}</h1>
+</div>
+<div class="error" *ngIf="error">
+  <h1>Something went wrong!</h1>
+  <hr />
+  <h2>{{ this.error }}</h2> 
+</div>
+</div>
